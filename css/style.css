@@ -1,0 +1,58 @@
+
+body, input, textarea {
+  font-family: 'Lato', sans-serif;
+  font-size: 11px;
+}
+
+body {
+  background-color: #EADEBD;
+}
+
+.title {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.year-title {
+  font-size: 9px;
+}
+
+#main p {
+  line-height: 50px;
+}
+
+.pill {
+  /* stroke: black; */
+  /* stroke-width: 2; */
+  stroke-linejoin: round;
+}
+
+.pill-outer {
+  /* stroke: black; */
+  /* stroke-width: 2; */
+  stroke-linejoin: round;
+}
+
+.link {
+  stroke-width: 1;
+  stroke: #AEA495;
+  /* stroke-opacity: 0.8; */
+}
+
+.pill rect, .pill path {
+  stroke: #524441;
+  stroke-width:1;
+}
+
+.pill rect.no-stroke {
+  stroke: none;
+  stroke-width:0;
+}
+
+.pill-outline {
+  fill:none;
+  stroke: #524441;
+  stroke-width:1;
+}
+
