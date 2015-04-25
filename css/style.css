@@ -56,3 +56,13 @@ body {
   stroke-width:1;
 }
 
+.highlight {
+  stroke: black;
+  stroke-width:2;
+}
+
+.highlight .pill-outline{
+  stroke: black;
+  stroke-width:2;
+}
+
