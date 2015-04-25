@@ -33,6 +33,16 @@ var chart = function() {
     {func:oneColor, opts: {colors:["#D6AB90"]}, id:"nor", name:"norfolk"},
     {func:twoColorVert, opts: {colors:["#A8B4A7","#D6AA8F"]}, id:"ric", name:"richmond"},
     {func:twoColorDiag, opts: {colors:["#9C9385","#D6AA7A"]}, id:"nbp", name:"newburyport"},
+    {func:doubleStripe, opts: {colors:["#D1A575","#A8AD86"], width:0.08}, id:"oma", name:"omaha"},
+    {func:bigTriInverted, opts: {colors:["#A7B2A4", "#E7C991"]}, id:"roc", name:"rochester"},
+    {func:twoColorDiag, opts: {colors:["#A6A87E","#998F82"]}, id:"stp", name:"st. paul"},
+    {func:twoHooks, opts: {colors:["#C3B79B","#A78659"], width:0.3}, id:"kci", name:"kansas city"},
+    {func:midStripe, opts: {colors:["#D2A375","#A3AEA0"], width:0.5}, id:"den", name:"denver"},
+    {func:midStripe, opts: {colors:["#D7AB97","#A0AB9D"], width:0.2, offset:8}, id:"ind", name:"indianapolis"},
+    {func:bigTri, opts: {colors:["#808F7B", "#D4AC92"]}, id:"all", name:"allegheny"},
+    {func:oneColor, opts: {colors:["#BAAD8F"]}, id:"alb", name:"albany"},
+    {func:doubleStripe, opts: {colors:["#E3C78D","#D2A98F"], width:0.15}, id:"col", name:"columbus"},
+    {func:midStripe, opts: {colors:["#B7AA8C","#A2A67E"], width:0.3} , id:"syr", name:"syracuse"},
   ];
 
   var pillWidth = 100;
@@ -122,9 +132,29 @@ var chart = function() {
     selection.call(oneColor, width, height, opts);
 
     var stripeWidth = width * opts.width;
+    var offset = 0;
+    if(opts.offset) {
+      offset = opts.offset;
+    }
 
     selection.append("rect")
-      .attr("x", (width / 2) - (stripeWidth / 2))
+      .attr("x", ((width / 2) - offset) - (stripeWidth / 2))
+      .attr("y", 0)
+      .attr("width", stripeWidth)
+      .attr("height", height)
+      .attr("fill", opts.colors[1]);
+  }
+
+  function doubleStripe(selection, width, height, opts) {
+    selection.call(oneColor, width, height, opts);
+
+    var stripeWidth = width * opts.width;
+    var halfWidth = width / 2;
+
+    selection.selectAll(".stripe")
+      .data([0,1]).enter()
+      .append("rect")
+      .attr("x", function(d,i) { return ((halfWidth / 2) - (stripeWidth / 2)) + (halfWidth * i);})
       .attr("y", 0)
       .attr("width", stripeWidth)
       .attr("height", height)
@@ -142,6 +172,23 @@ var chart = function() {
         var path = "M " + edge + "," + height;
         path += " l " + ((width / 2) - edge) + "," + (-1 * height);
         path += " l " + ((width / 2) - edge)  + "," + height;
+        path += " z";
+        return path;
+      });
+
+  }
+
+  function bigTriInverted(selection, width, height, opts) {
+    selection.call(oneColor, width, height, opts);
+
+    var edge = width / 10;
+
+    selection.append("path")
+      .attr("fill", opts.colors[1])
+      .attr("d", function() {
+        var path = "M " + edge + "," + 0;
+        path += " l " + ((width / 2) - edge) + "," + (height);
+        path += " l " + ((width / 2) - edge)  + "," + (-1 * height);
         path += " z";
         return path;
       });
@@ -181,6 +228,10 @@ var chart = function() {
         path += " z";
         return path;
       });
+  }
+
+  function twoHooks(selection, width, height, opts) {
+    selection.call(oneColor, width, height, opts);
 
   }
 
@@ -219,7 +270,7 @@ var chart = function() {
       var gEnter = svg.enter().append("svg").append("g");
 
       var width = (pillWidth + yearSpace) * years.length;
-      var height = (pillHeight + pillSpace) * 25;
+      var height = (pillHeight + pillSpace) * 35;
 
       svg.attr("width", width + margin.left + margin.right );
       svg.attr("height", height + margin.top + margin.bottom );
