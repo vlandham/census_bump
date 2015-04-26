@@ -2,6 +2,15 @@
 var years = ["1890","1880","1870","1860", "1850", "1840", "1830", "1820", "1810", "1800", "1790"];
 var censuses = ["11th census.", "10th census.", "9th census.", "8th census.", "7th census.", "6th census.", "5th census.", "4th census.", "3rd census.", "2nd census.", "1st census."];
 
+var sideEnds = {
+  "1790":0,
+  "1800":13,
+  "1810":22,
+  "1820":29,
+  "1830":41,
+  "1840":49
+};
+
 var chart = function() {
 
   var pillTypes = [
@@ -23,7 +32,7 @@ var chart = function() {
     {func:oneColor, opts: {colors:["#B29270"]}, id:"spg", name:"spring garden"},
     {func:bigTri, opts: {colors:["#BFB395", "#E2CB8D"]}, id:"det", name:"detroit"},
     {func:twoColorVert, opts: {colors:["#D6B094", "#A48D6D"]}, id:"mil", name:"milwaukee"},
-    {func:midFlag, opts: {colors:["#ABB5A5", "#E5C98F"]}, id:"new", name:"newark"},
+    {func:midFlag, opts: {colors:["#ABB5A5", "#E5C98F"], width:0.25}, id:"new", name:"newark"},
     {func:twoColor, opts: {colors:["#82815C","#C99562"]}, id:"min", name:"minneapolis"},
     {func:twoColorVert, opts: {colors:["#D1A577","#A7916E"]}, id:"jer", name:"jersey city"},
     {func:oneColor, opts: {colors:["#C1B496"]}, id:"lou", name:"louisville"},
@@ -31,9 +40,8 @@ var chart = function() {
     {func:twoColorVert, opts: {colors:["#D5A87B","#BAAD91"]}, id:"npor", name:"newport"},
     {func:oneColor, opts: {colors:["#E6CC90"]}, id:"pro", name:"providence"},
     {func:oneColor, opts: {colors:["#D6AB90"]}, id:"nor", name:"norfolk"},
-    {func:twoColorVert, opts: {colors:["#A8B4A7","#D6AA8F"]}, id:"ric", name:"richmond"},
     {func:twoColorDiag, opts: {colors:["#9C9385","#D6AA7A"]}, id:"nbp", name:"newburyport"},
-    {func:doubleStripe, opts: {colors:["#D1A575","#A8AD86"], width:0.08}, id:"oma", name:"omaha"},
+    {func:doubleStripe, opts: {colors:["#D1A575","#A8AD86"], width:0.08, dist:0.08}, id:"oma", name:"omaha"},
     {func:bigTriInverted, opts: {colors:["#A7B2A4", "#E7C991"]}, id:"roc", name:"rochester"},
     {func:twoColorDiag, opts: {colors:["#A6A87E","#998F82"]}, id:"stp", name:"st. paul"},
     {func:twoHooks, opts: {colors:["#C3B79B","#A78659"], width:0.3}, id:"kci", name:"kansas city"},
@@ -41,10 +49,30 @@ var chart = function() {
     {func:midStripe, opts: {colors:["#D7AB97","#A0AB9D"], width:0.2, offset:8}, id:"ind", name:"indianapolis"},
     {func:bigTri, opts: {colors:["#808F7B", "#D4AC92"]}, id:"all", name:"allegheny"},
     {func:oneColor, opts: {colors:["#BAAD8F"]}, id:"alb", name:"albany"},
-    {func:doubleStripe, opts: {colors:["#E3C78D","#D2A98F"], width:0.15}, id:"col", name:"columbus"},
+    {func:doubleStripe, opts: {colors:["#E3C78D","#D2A98F"], width:0.15, dist:0.0}, id:"col", name:"columbus"},
     {func:midStripe, opts: {colors:["#B7AA8C","#A2A67E"], width:0.3} , id:"syr", name:"syracuse"},
+    {func:midFlag, opts: {colors:["#E4C88D", "#928C7D"], width:0.27}, id:"wor", name:"worcester"},
+    {func:doubleFlag, opts: {colors:["#948E81", "#D6A772"], width:0.08, dist:0.3}, id:"tol", name:"toledo"},
+    {func:twoColorVert, opts: {colors:["#A8B4A7","#D6AA8F"]}, id:"ric", name:"richmond"},
+    {func:oneColor, opts: {colors:["#E6CA90"]}, id:"nhv", name:"new haven"},
+    {func:doubleStripe, opts: {colors:["#A38D6A","#9FADA0"], width:0.15, dist:-0.07}, id:"pat", name:"paterson"},
+    {func:oneColor, opts: {colors:["#7C7B5A"]}, id:"low", name:"lowell"},
+    {func:doubleStripe, opts: {colors:["#948E81","#E0C68C"], width:0.15, dist:0.2}, id:"nas", name:"nashville"},
+    {func:candyStripe, opts: {colors:["#A0ADA0","#948E81"], width:0.15, dist:0.2}, id:"scr", name:"scranton"},
+    {func:twoColor, opts: {colors:["#BAB28E","#C3905F"]}, id:"fal", name:"fall river"},
+    {func:oneColor, opts: {colors:["#A89270"]}, id:"cam", name:"cambridge"},
+    {func:twoColorDiag, opts: {colors:["#D2AC91","#D3A878"]}, id:"atl", name:"atlanta"},
+    {func:midStripe, opts: {colors:["#9DA89A","#6A828A"], width:0.18, offset:0}, id:"mem", name:"memphis"},
+    {func:midFlag, opts: {colors:["#CFA675", "#A3A67E"], width:0.24}, id:"wil", name:"wilmington"},
+    {func:oneColor, opts: {colors:["#C2B69A"]}, id:"day", name:"dayton"},
+    {func:oneColor, opts: {colors:["#807F5B"]}, id:"tro", name:"troy"},
+    {func:twoColorDiagRev, opts: {colors:["#A3A679","#CFA773"]}, id:"grd", name:"grand rapids"},
+    {func:oneColor, opts: {colors:["#938C7D"]}, id:"red", name:"reading"},
+    {func:midStripe, opts: {colors:["#DCC387","#A3A378"], width:0.5, offset:0}, id:"cdn", name:"camden"},
+    {func:bigTri, opts: {colors:["#948D7D", "#BCB195"]}, id:"tre", name:"trenton"},
   ];
 
+  var pillMap = d3.map(pillTypes, function(d) { return d.id; });
   var pillWidth = 100;
   var pillHeight = pillWidth / 7;
   var pillSpace = 10;
@@ -128,6 +156,29 @@ var chart = function() {
       .attr("fill", opts.colors[1]);
   }
 
+  function twoColorDiagRev(selection, width, height, opts) {
+
+    selection.append("path")
+      .attr("d", function() {
+        var path = "M 0,0";
+        path += " l " + width + "," + height;
+        path += " l " + (-1 * width) + ",0";
+        path += " z";
+        return path;
+      })
+      .attr("fill", opts.colors[0]);
+
+    selection.append("path")
+      .attr("d", function() {
+        var path = "M 0,0";
+        path += " l " + width + ",0";
+        path += " l " + 0 + "," + height;
+        path += " z";
+        return path;
+      })
+      .attr("fill", opts.colors[1]);
+  }
+
   function midStripe(selection, width, height, opts) {
     selection.call(oneColor, width, height, opts);
 
@@ -154,11 +205,67 @@ var chart = function() {
     selection.selectAll(".stripe")
       .data([0,1]).enter()
       .append("rect")
-      .attr("x", function(d,i) { return ((halfWidth / 2) - (stripeWidth / 2)) + (halfWidth * i);})
+      .attr("class", "stripe")
+      .attr("x", function(d,i) {
+        var dist = i === 0 ? (halfWidth * opts.dist) : (halfWidth * opts.dist * -1);
+        return (((halfWidth / 2) + dist) - (stripeWidth / 2)) + (halfWidth * i);
+      })
       .attr("y", 0)
       .attr("width", stripeWidth)
       .attr("height", height)
       .attr("fill", opts.colors[1]);
+  }
+
+  function candyStripe(selection, width, height, opts) {
+    selection.call(oneColor, width, height, opts);
+
+    var stripeWidth = width * opts.width;
+    var halfWidth = width / 2;
+
+    selection.selectAll(".stripe")
+      .data([0,1]).enter()
+      .append("rect")
+      .attr("class", "stripe")
+      .attr("x", function(d,i) {
+        var dist = i === 0 ? (halfWidth * opts.dist) : (halfWidth * opts.dist * -1);
+        return (((halfWidth / 2) + dist) - (stripeWidth / 2)) + (halfWidth * i);
+      })
+      .attr("y", 0)
+      .attr("width", stripeWidth)
+      .attr("height", height)
+      .attr("fill", opts.colors[1]);
+  }
+
+  function doubleFlag(selection, width, height, opts) {
+    selection.call(oneColor, width, height, opts);
+
+    var flagWidth = width * opts.width;
+    var halfWidth = width / 2;
+    var skew = 6;
+
+    selection.selectAll(".flag")
+      .data([0,1]).enter()
+      .append("path")
+      .attr("class", "flag")
+      .attr("fill", opts.colors[1])
+      .attr("d", function(d,i) {
+        var dist = i === 0 ? (halfWidth * opts.dist) : (halfWidth * opts.dist * -1);
+        var path = "M " + ((((halfWidth / 2) + dist ) - ((flagWidth / 2) + (skew / 2))) + (halfWidth * i)) + "," + height;
+        path += " l " + (skew) + "," + (-1 * height);
+        path += " l " + flagWidth  + "," + 0;
+        path += " l " + (-1 * skew)  + "," + ( height);
+        path += " z";
+        return path;
+      });
+
+    // selection.selectAll(".stripe")
+    //   .data([0,1]).enter()
+    //   .append("rect")
+    //   .attr("x", function(d,i) { return ((halfWidth / 2) - (stripeWidth / 2)) + (halfWidth * i);})
+    //   .attr("y", 0)
+    //   .attr("width", stripeWidth)
+    //   .attr("height", height)
+    //   .attr("fill", opts.colors[1]);
   }
 
   function bigTri(selection, width, height, opts) {
@@ -215,7 +322,7 @@ var chart = function() {
   function midFlag(selection, width, height, opts) {
     selection.call(oneColor, width, height, opts);
 
-    var flagWidth = width / 4;
+    var flagWidth = width * opts.width;
     var skew = 6;
 
     selection.append("path")
@@ -256,21 +363,59 @@ var chart = function() {
     return links.filter(function(l) { return l.start > 0 && l.end > 0; });
   }
 
+  function getEndYears(data) {
+    endYears = [];
+    data.forEach(function(d) {
+      var started = false;
+      for(var i = 0; i < years.length; i++) {
+        if((started) && (isNaN(d[years[i]]) || d[years[i]] == -1)) {
+          if(i > 1) {
+            var yr = {
+              id:d.id,
+              year:years[i - 1],
+              pos:d[years[i - 1]],
+              name:pillMap.get(d.id).name,
+              index:i - 1
+            };
+            endYears.push(yr);
+          }
+          break;
+        } else if(i + 1 === years.length) {
+          endYears.push({id:d.id, year:years[i], pos:d[years[i]], name:pillMap.get(d.id).name, index:i});
+        } else if(!(isNaN(d[years[i]])) && (d[years[i]] !== -1)) {
+          if(i > 1 && !started) {
+            endYears.push({id:d.id, year:years[i], pos:d[years[i]], name:pillMap.get(d.id).name, index:i});
+          }
+          started = true;
+        }
+      }
+    });
+
+      console.log(endYears);
+    return endYears;
+  }
+
+  function getStartCities(data) {
+    var startIds = data
+    .filter(function(d) { return d[years[0]] > 0; })
+    .map(function(d) { return d.id; });
+    var cities = startIds.map(function(d) { return pillMap.get(d).name; });
+    return cities;
+  }
+
   var chart = function(selection) {
     selection.each(function(rawData) {
       data = prepareData(rawData);
       var links = createLinks(data);
-      pillMap = d3.map(pillTypes, function(d) { return d.id; });
-      var startIds = data
-        .filter(function(d) { return d[years[0]] > 0; })
-        .map(function(d) { return d.id; });
-      var cities = startIds.map(function(d) { return pillMap.get(d).name; });
+      var endYears = getEndYears(data);
+      var cities = getStartCities(data);
+
 
       var svg = d3.select(this).selectAll("svg").data([data]);
       var gEnter = svg.enter().append("svg").append("g");
 
       var width = (pillWidth + yearSpace) * years.length;
-      var height = (pillHeight + pillSpace) * 35;
+      var height = (pillHeight + pillSpace) * 52;
 
       svg.attr("width", width + margin.left + margin.right );
       svg.attr("height", height + margin.top + margin.bottom );
@@ -308,6 +453,14 @@ var chart = function() {
         .attr("class", "pill-outline")
         .attr("d", pillPath(pillWidth, pillHeight));
 
+      g.selectAll("links").data(links)
+        .enter()
+        .append("line")
+        .attr("class", "link")
+        .attr("x1", function(d,i) { return ((pillWidth + yearSpace) * d.gap) - (yearSpace ); })
+        .attr("y1", function(d,i) { return (pillHeight + pillSpace) * (d.start - 1) + (pillHeight / 2); })
+        .attr("x2", function(d,i) { return ((pillWidth + yearSpace) * d.gap); })
+        .attr("y2", function(d,i) { return (pillHeight + pillSpace) * (d.end - 1) + (pillHeight / 2); });
 
       var year = g.selectAll("year").data(years)
         .enter()
@@ -329,14 +482,6 @@ var chart = function() {
         .attr("dy", -30)
         .text(function(d,i) { return censuses[i]; });
 
-      g.selectAll("links").data(links)
-        .enter()
-        .append("line")
-        .attr("class", "link")
-        .attr("x1", function(d,i) { return ((pillWidth + yearSpace) * d.gap) - (yearSpace + 2); })
-        .attr("y1", function(d,i) { return (pillHeight + pillSpace) * (d.start - 1) + (pillHeight / 2); })
-        .attr("x2", function(d,i) { return ((pillWidth + yearSpace) * d.gap) + 2; })
-        .attr("y2", function(d,i) { return (pillHeight + pillSpace) * (d.end - 1) + (pillHeight / 2); });
 
       year.selectAll("pill-use")
         .data(function(y) {
@@ -344,7 +489,6 @@ var chart = function() {
             return {"id":d.id, "value":d[y]};
           }).filter(function(d) { return d.value > 0; });
         })
-        .each(function(d) { console.log(d); })
         .enter()
         .append("use")
         .attr("xlink:href", function(d) { return "#" + d.id;})
@@ -354,11 +498,25 @@ var chart = function() {
         })
         .on("mouseover", mouseover)
         .on("mouseout", mouseout);
+
+      g.selectAll("end-title")
+        .data(endYears)
+        .enter()
+        .append("text")
+        .attr("class", "title end-title")
+        .attr("transform", function(d,i) {
+          var x = ((pillWidth + yearSpace) * d.index);
+          var y = (d.pos ) * (pillHeight + pillSpace);
+          return "translate(" + x + "," + y + ")";
+        })
+        .attr("text-anchor", function(d) { return d.pos > sideEnds[d.year] ? "left" : "middle"; })
+        .attr("dx", function(d) { return d.pos > sideEnds[d.year] ? pillWidth + 5 : pillWidth / 2;})
+        .attr("dy", -1 * (pillHeight - 1))
+        .text(function(d) { return d.name; });
     });
   };
 
   function mouseover(d,i) {
-    console.log(d);
     defs.selectAll(".pill")
       .classed("highlight", function() {return d3.select(this).attr("id") === d.id;});
     g.selectAll(".link")
