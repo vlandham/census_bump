@@ -76,6 +76,17 @@ var chart = function() {
     {func:midStripe, opts: {colors:["#A1A99D","#D2AA76"], width:0.8, offset:0}, id:"lyn", name:"lynn"},
     {func:midStripe, opts: {colors:["#BFB496","#D5AE93"], width:0.5, offset:0}, id:"hrt", name:"hartford"},
     {func:bigTri, opts: {colors:["#D5A78D", "#BFB294"]}, id:"bri", name:"bridgewater"},
+    {func:bigX, opts: {colors:["#A4AFA1", "#D7AC93"], width:1.0}, id:"pet", name:"petersburg"},
+    {func:bigX, opts: {colors:["#D1A577", "#928D82"], width:1.0}, id:"sot", name:"southwark"},
+    {func:theTeeth, opts: {colors:["#A0ADA3", "#D4AD94", "#B9AC90"], width:1.0}, id:"sal", name:"salem"},
+    {func:theTeeth, opts: {colors:["#D9B094", "#A2B0A6"], width:1.0}, id:"nan", name:"nantucket"},
+    {func:bigX, opts: {colors:["#EACE95", "#C1B29B"], width:1.0}, id:"por", name:"portsmouth"},
+    {func:theTeeth, opts: {colors:["#C2B598", "#C48F5E"], width:1.0}, id:"glo", name:"gloucester"},
+    {func:midStripe, opts: {colors:["#E6CC8D","#D7A98F"], width:0.5} , id:"sav", name:"savannah"},
+    {func:twoColorVert, opts: {colors:["#A1ADA0","#797957"], skew:12}, id:"sch", name:"schenectady"},
+    {func:twoColorVert, opts: {colors:["#A99370","#82835E"]} , id:"nbed", name:"new bedford"},
+    {func:midStripe, opts: {colors:["#7E7F5C","#AA9570"], width:0.5, offset:0}, id:"ptl", name:"portland"},
+    {func:twoColorDiag, opts: {colors:["#7E7D59","#BDB293"]}, id:"uti", name:"utica"},
   ];
 
   var pillMap = d3.map(pillTypes, function(d) { return d.id; });
@@ -129,14 +140,29 @@ var chart = function() {
 
   function twoColorVert(selection, width, height, opts) {
 
-    selection.selectAll("rect")
-      .data(opts.colors).enter()
-      .append("rect")
-      .attr("x", function(d,i) { return (i * width / 2); })
-      .attr("y", 0)
-      .attr("width", width / 2)
-      .attr("height", height)
-      .attr("fill", function(d) { return d; });
+    selection.call(oneColor, width, height, opts);
+
+    var skew = opts.skew || 0;
+
+    // selection
+    //   .append("rect")
+    //   .attr("x", width / 2)
+    //   .attr("y", 0)
+    //   .attr("width", width / 2)
+    //   .attr("height", height)
+    //   .attr("fill", opts.colors[1]);
+
+    selection
+      .append("path")
+      .attr("d", function() {
+        var path = "M " + ((width / 2) - (skew / 2)) + "," + 0;
+        path += " l" + ((width / 2) + (skew / 2)) + "," + 0;
+        path += " l" + 0 + "," + height;
+        path += " l" + (-1 * ((width / 2) - (skew / 2))) + "," + 0;
+        path += " z";
+        return path;
+      })
+      .attr("fill", opts.colors[1]);
   }
 
   function twoColorDiag(selection, width, height, opts) {
@@ -282,6 +308,74 @@ var chart = function() {
 
   }
 
+  function theTeeth(selection, width, height, opts) {
+    selection.call(oneColor, width, height, opts);
+
+    var edge = width / 8;
+    var toothWidth = (width - (edge * 2)) / 2;
+
+    selection.append("path")
+      .attr("fill", opts.colors[1])
+      .attr("d", function() {
+        var path = "M " + edge + "," + 0;
+        path += " l " + (toothWidth / 2) + "," + height;
+        path += " l " + (toothWidth / 2) + "," + (-1 * height);
+        path += " z";
+        return path;
+      });
+
+    selection.append("path")
+      .attr("fill", opts.colors[1])
+      .attr("d", function() {
+        var path = "M " + (edge + toothWidth) + "," + 0;
+        path += " l " + (toothWidth / 2) + "," + height;
+        path += " l " + (toothWidth / 2) + "," + (-1 * height);
+        path += " z";
+        return path;
+      });
+
+    var lastCol = opts.colors.length > 2 ? opts.colors[2] : opts.colors[0];
+
+    selection.append("path")
+      .attr("fill", lastCol)
+      .attr("d", function() {
+        var path = "M " + (edge + (toothWidth / 2)) + "," + height;
+        path += " l " + (toothWidth / 2) + "," + (-1 * height);
+        path += " l " + (toothWidth / 2) + "," + (height);
+        path += " z";
+        return path;
+      });
+
+  }
+
+  function bigX(selection, width, height, opts) {
+    selection.call(oneColor, width, height, opts);
+
+    var edge = width / 10;
+    var xWidth = width * opts.width;
+
+    selection.append("path")
+      .attr("fill", opts.colors[1])
+      .attr("d", function() {
+        var path = "M " + (edge + (width - xWidth)) + "," + 0;
+        path += " l " + ((width / 2) - (edge + (width - xWidth) )) + "," + (height / 2);
+        path += " l " + ((width / 2) - ((width - xWidth) + edge)) + "," + (-1 * (height / 2));
+        path += " z";
+        return path;
+      });
+
+    selection.append("path")
+      .attr("fill", opts.colors[1])
+      .attr("d", function() {
+        var path = "M " + (edge + (width - xWidth)) + "," + height;
+        path += " l " + ((width / 2) - (edge + (width - xWidth))) + "," + (-1 * (height / 2));
+        path += " l " + ((width / 2) - ((width - xWidth) + edge)) + "," + ((height / 2));
+        path += " z";
+        return path;
+      });
+
+  }
+
   function bigTriInverted(selection, width, height, opts) {
     selection.call(oneColor, width, height, opts);
 
@@ -397,6 +491,8 @@ var chart = function() {
           endYears.push({id:d.id, year:years[i], pos:d[years[i]], name:pillMap.get(d.id).name, index:i});
         } else if(!(isNaN(d[years[i]])) && (d[years[i]] !== -1)) {
           if(i > 0 && !started) {
+            endYears.push({id:d.id, year:years[i], pos:d[years[i]], name:pillMap.get(d.id).name, index:i});
+          } else if(d[years[i]] > sideEnds[years[i]]) {
             endYears.push({id:d.id, year:years[i], pos:d[years[i]], name:pillMap.get(d.id).name, index:i});
           }
           started = true;
