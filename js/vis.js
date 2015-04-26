@@ -44,7 +44,7 @@ var chart = function() {
     {func:doubleStripe, opts: {colors:["#D1A575","#A8AD86"], width:0.08, dist:0.08}, id:"oma", name:"omaha"},
     {func:bigTriInverted, opts: {colors:["#A7B2A4", "#E7C991"]}, id:"roc", name:"rochester"},
     {func:twoColorDiag, opts: {colors:["#A6A87E","#998F82"]}, id:"stp", name:"st. paul"},
-    {func:twoHooks, opts: {colors:["#C3B79B","#A78659"], width:0.3}, id:"kci", name:"kansas city"},
+    {func:twoHooks, opts: {colors:["#C3B79B","#A78659"], width:0.1}, id:"kci", name:"kansas city"},
     {func:midStripe, opts: {colors:["#D2A375","#A3AEA0"], width:0.5}, id:"den", name:"denver"},
     {func:midStripe, opts: {colors:["#D7AB97","#A0AB9D"], width:0.2, offset:8}, id:"ind", name:"indianapolis"},
     {func:bigTri, opts: {colors:["#808F7B", "#D4AC92"]}, id:"all", name:"allegheny"},
@@ -70,6 +70,12 @@ var chart = function() {
     {func:oneColor, opts: {colors:["#938C7D"]}, id:"red", name:"reading"},
     {func:midStripe, opts: {colors:["#DCC387","#A3A378"], width:0.5, offset:0}, id:"cdn", name:"camden"},
     {func:bigTri, opts: {colors:["#948D7D", "#BCB195"]}, id:"tre", name:"trenton"},
+    {func:twoHooks, opts: {colors:["#A4B0A0","#D7A892"], width:0.26}, id:"mar", name:"marblehead"},
+    {func:twoHooks, opts: {colors:["#A58F6C","#9FAE9C"], width:0.15}, id:"chr2", name:"charleston"},
+    {func:twoColorVert, opts: {colors:["#CABFA0","#BF8A5A"]}, id:"law", name:"lawrence"},
+    {func:midStripe, opts: {colors:["#A1A99D","#D2AA76"], width:0.8, offset:0}, id:"lyn", name:"lynn"},
+    {func:midStripe, opts: {colors:["#BFB496","#D5AE93"], width:0.5, offset:0}, id:"hrt", name:"hartford"},
+    {func:bigTri, opts: {colors:["#D5A78D", "#BFB294"]}, id:"bri", name:"bridgewater"},
   ];
 
   var pillMap = d3.map(pillTypes, function(d) { return d.id; });
@@ -78,7 +84,7 @@ var chart = function() {
   var pillSpace = 10;
   var yearSpace = 60;
   var data = [];
-  var margin = {top: 80, right: 20, bottom: 20, left: 100};
+  var margin = {top: 80, right: 100, bottom: 20, left: 100};
   var g = null;
   var defs = null;
 
@@ -257,15 +263,6 @@ var chart = function() {
         path += " z";
         return path;
       });
-
-    // selection.selectAll(".stripe")
-    //   .data([0,1]).enter()
-    //   .append("rect")
-    //   .attr("x", function(d,i) { return ((halfWidth / 2) - (stripeWidth / 2)) + (halfWidth * i);})
-    //   .attr("y", 0)
-    //   .attr("width", stripeWidth)
-    //   .attr("height", height)
-    //   .attr("fill", opts.colors[1]);
   }
 
   function bigTri(selection, width, height, opts) {
@@ -340,6 +337,22 @@ var chart = function() {
   function twoHooks(selection, width, height, opts) {
     selection.call(oneColor, width, height, opts);
 
+    var hookEdge = width * opts.width;
+
+    selection.append("path")
+      .attr("fill", opts.colors[1])
+      .attr("d", function() {
+        var path = "M " + hookEdge + "," + 0;
+        path += " l " + 0 + "," + height / 2;
+        path += " l " + (width - (hookEdge * 2)) + "," + 0;
+        path += " l " + 0 + "," + height / 2;
+        path += " l " + hookEdge + "," + 0;
+        path += " l " + 0 + "," + (-1 * height);
+        path += " z";
+        return path;
+      });
+
+
   }
 
   function prepareData(rawData) {
@@ -383,7 +396,7 @@ var chart = function() {
         } else if(i + 1 === years.length) {
           endYears.push({id:d.id, year:years[i], pos:d[years[i]], name:pillMap.get(d.id).name, index:i});
         } else if(!(isNaN(d[years[i]])) && (d[years[i]] !== -1)) {
-          if(i > 1 && !started) {
+          if(i > 0 && !started) {
             endYears.push({id:d.id, year:years[i], pos:d[years[i]], name:pillMap.get(d.id).name, index:i});
           }
           started = true;

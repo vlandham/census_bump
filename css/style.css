@@ -20,6 +20,7 @@ body {
 
 .end-title {
   font-size: 9px;
+  pointer-events: none;
 }
 
 #main p {
