@@ -122,6 +122,8 @@ var chart = function() {
   var g = null;
   var defs = null;
 
+  var zooming = false;
+
   function pillPath(width, height, padding) {
 
     var edge = width / 10;
@@ -582,7 +584,7 @@ var chart = function() {
     var startIds = data
     .filter(function(d) { return d[years[0]] > 0; })
     .map(function(d) { return d.id; });
-    var cities = startIds.map(function(d) { return pillMap.get(d).name; });
+    var cities = startIds.map(function(d) { return {id:d, name:pillMap.get(d).name}; });
     return cities;
   }
 
@@ -591,7 +593,7 @@ var chart = function() {
       data = prepareData(rawData);
       var links = createLinks(data);
       var cityTitles = getCityTitles(data);
-      var cities = getStartCities(data);
+      var startCities = getStartCities(data);
 
       svg = d3.select(this).selectAll("svg").data([data]);
       var gEnter = svg.enter().append("svg").append("g");
@@ -618,14 +620,16 @@ var chart = function() {
         .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
       g.selectAll(".city-title")
-        .data(cities).enter()
+        .data(startCities).enter()
         .append("text")
-        .attr("class", "title city-title")
+        .attr("class", "title city-title start-city")
         .attr("x", 0)
         .attr("dx", -100)
         .attr("dy", pillHeight )
         .attr("y", function(d,i) { return (pillHeight + pillSpace) * i; })
-        .text(function(d) { return d; });
+        .text(function(d) { return d.name; })
+        .on("mouseover", mouseover)
+        .on("mouseout", mouseout);
 
       var defpills = defs.selectAll("pill")
         .data(pillTypes)
@@ -710,6 +714,14 @@ var chart = function() {
         .attr("text-anchor", "middle")
         .text("rank of the most populous cities at each census: 1790 - 1890.");
 
+      g.append("text")
+        .attr("class", "title zoom-title zoom")
+        .attr("x", -100)
+        .attr("y", -50)
+        .text("unzoom")
+        .on("click", chart.unzoom);
+
+      d3.select(window).on('resize', resize);
       // if (Modernizr.mq('only screen and (min-width: 800px)')) {
       //   d3.select(window).on('resize', resize);
       //   resize();
@@ -718,30 +730,51 @@ var chart = function() {
   };
 
   function resize() {
-    var p = svg.node().parentNode;
-    var targetWidth = +d3.select(p).style("width").replace("px","");
-    svg.attr("width", targetWidth);
-    svg.attr("height", targetWidth / aspect);
+    if(!zooming) {
+      var p = svg.node().parentNode;
+      var targetWidth = +d3.select(p).style("width").replace("px","");
+      svg.attr("width", targetWidth);
+      svg.attr("height", targetWidth / aspect);
+    }
   }
 
   function mouseover(d,i) {
     defs.selectAll(".pill")
-      .classed("highlight", function() {return d3.select(this).attr("id") === d.id;});
+      .classed("highlight", function() {return d3.select(this).attr("id") === d.id;})
+      .classed("unhighlight", function(e) {return e.id !== d.id; });
     g.selectAll(".link")
-      .classed("highlight", function(e) {return e.id === d.id; });
+      .classed("highlight", function(e) {return e.id === d.id; })
+      .classed("unhighlight", function(e) {return e.id !== d.id; });
+    g.selectAll(".start-city")
+      .classed("highlight", function(e) {return e.id === d.id; })
+      .classed("unhighlight", function(e) {return e.id !== d.id; });
   }
 
   function mouseout(d,i) {
     defs.selectAll(".pill").classed("highlight", false);
+    defs.selectAll(".pill").classed("unhighlight", false);
     g.selectAll(".link").classed("highlight", false);
+    g.selectAll(".link").classed("unhighlight", false);
+    g.selectAll(".start-city").classed("highlight", false);
+    g.selectAll(".start-city").classed("unhighlight", false);
   }
 
   chart.zoom = function() {
+    zooming = true;
     svg.attr("width", orgWidth + margin.left + margin.right);
     svg.attr("height", orgHeight + margin.top + margin.bottom);
+
+    svg.select(".zoom")
+      .text("unzoom")
+      .on("click", chart.unzoom);
   };
+
   chart.unzoom = function() {
+    zooming = false;
     resize();
+    svg.select(".zoom")
+      .text("zoom")
+      .on("click", chart.zoom);
   };
 
   return chart;
