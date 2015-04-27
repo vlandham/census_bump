@@ -8,14 +8,23 @@ body {
   background-color: #EADEBD;
 }
 
+a, a:visited, a:focus {
+  color: black;
+}
+
 .container {
-  padding-left: 30px;
+  padding-left: 10px;
 }
 
 .title {
   font-family: 'Lato', sans-serif;
   font-weight: 400;
   text-transform: uppercase;
+}
+
+.main-title {
+  font-size: 18px;
+  opacity: 0.6;
 }
 
 .year-title {
@@ -73,5 +82,15 @@ body {
 .highlight .pill-outline{
   stroke: black;
   stroke-width:2;
+}
+
+#footer {
+
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  text-transform: uppercase;
+
+  text-align: center;
+  padding-bottom: 10px;
 }
 

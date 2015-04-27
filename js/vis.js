@@ -112,7 +112,13 @@ var chart = function() {
   var pillSpace = 10;
   var yearSpace = 60;
   var data = [];
-  var margin = {top: 80, right: 100, bottom: 20, left: 100};
+  var aspect = 0;
+  var margin = {top: 80, right: 50, bottom: 20, left: 100};
+  var width;
+  var height;
+  var orgWidth;
+  var orgHeight;
+  var svg = null;
   var g = null;
   var defs = null;
 
@@ -587,14 +593,19 @@ var chart = function() {
       var cityTitles = getCityTitles(data);
       var cities = getStartCities(data);
 
-      var svg = d3.select(this).selectAll("svg").data([data]);
+      svg = d3.select(this).selectAll("svg").data([data]);
       var gEnter = svg.enter().append("svg").append("g");
 
-      var width = (pillWidth + yearSpace) * years.length;
-      var height = (pillHeight + pillSpace) * 52;
+      orgWidth = width = (pillWidth + yearSpace) * years.length;
+      orgHeight = height = (pillHeight + pillSpace) * 50;
+
 
       svg.attr("width", width + margin.left + margin.right );
       svg.attr("height", height + margin.top + margin.bottom );
+      svg.attr("viewBox", "0 0 " + (width + margin.left + margin.right) + " " + (height + margin.top + margin.bottom));
+      svg.attr("preserveAspectRatio", "xMidYMid");
+
+      aspect = (width + margin.left + margin.right) / (height + margin.left + margin.right);
 
       defs = svg.append("defs");
 
@@ -691,8 +702,25 @@ var chart = function() {
         .attr("dx", function(d) { return d.pos > sideEnds[d.year] ? pillWidth + 5 : pillWidth / 2;})
         .attr("dy", -1 * (pillHeight - 1))
         .text(function(d) { return d.name; });
+
+      g.append("text")
+        .attr("class", "title main-title")
+        .attr("x", width / 2)
+        .attr("y", -50)
+        .attr("text-anchor", "middle")
+        .text("rank of the most populous cities at each census: 1790 - 1890.");
+
+      d3.select(window).on('resize', resize);
+      resize();
     });
   };
+
+  function resize() {
+    var p = svg.node().parentNode;
+    var targetWidth = +d3.select(p).style("width").replace("px","");
+    svg.attr("width", targetWidth);
+    svg.attr("height", targetWidth / aspect);
+  }
 
   function mouseover(d,i) {
     defs.selectAll(".pill")
@@ -706,8 +734,17 @@ var chart = function() {
     g.selectAll(".link").classed("highlight", false);
   }
 
+  chart.zoom = function() {
+    svg.attr("width", orgWidth + margin.left + margin.right);
+    svg.attr("height", orgHeight + margin.top + margin.bottom);
+  };
+  chart.unzoom = function() {
+    resize();
+  };
+
   return chart;
 };
+
 
 $(document).ready(function() {
   var plot = chart();
@@ -719,4 +756,28 @@ $(document).ready(function() {
   queue()
     .defer(d3.csv, "data/pops.csv")
     .await(display);
+
+  function unzoomSetup() {
+    d3.select(".unzoom").on("click", function() {
+      plot.unzoom();
+      d3.select(this)
+      .classed("zoom", true)
+      .classed("unzoom",false)
+      .text("zoom");
+      zoomSetup();
+    });
+  }
+
+  function zoomSetup() {
+    d3.select(".zoom").on("click", function() {
+      plot.zoom();
+      d3.select(this)
+      .classed("zoom", false)
+      .classed("unzoom",true)
+      .text("unzoom");
+      unzoomSetup();
+    });
+  }
+
+  zoomSetup();
 });
