@@ -29,10 +29,10 @@ var chart = function() {
     {func:oneColor, opts: {colors:["#7A7957"]}, id:"nwo", name:"new orleans"},
     {func:littleSquares, opts: {colors:["#C09364", "#7E949A"]}, id:"pit", name:"pittsburg"},
     {func:oneColor, opts: {colors:["#9D9385"]}, id:"was", name:"washington"},
-    {func:oneColor, opts: {colors:["#B29270"]}, id:"spg", name:"spring garden"},
+    {func:longStripe, opts: {colors:["#A8906B", "#ACB4A1"], width:0.6, edge:false}, id:"spg", name:"spring garden"},
     {func:bigTri, opts: {colors:["#BFB395", "#E2CB8D"]}, id:"det", name:"detroit"},
     {func:twoColorVert, opts: {colors:["#D6B094", "#A48D6D"]}, id:"mil", name:"milwaukee"},
-    {func:midFlag, opts: {colors:["#ABB5A5", "#E5C98F"], width:0.25}, id:"new", name:"newark"},
+    {func:midFlag, opts: {colors:["#ABB5A5", "#E5C98F"], width:0.25, skew:6}, id:"new", name:"newark"},
     {func:twoColor, opts: {colors:["#82815C","#C99562"]}, id:"min", name:"minneapolis"},
     {func:twoColorVert, opts: {colors:["#D1A577","#A7916E"]}, id:"jer", name:"jersey city"},
     {func:oneColor, opts: {colors:["#C1B496"]}, id:"lou", name:"louisville"},
@@ -51,19 +51,19 @@ var chart = function() {
     {func:oneColor, opts: {colors:["#BAAD8F"]}, id:"alb", name:"albany"},
     {func:doubleStripe, opts: {colors:["#E3C78D","#D2A98F"], width:0.15, dist:0.0}, id:"col", name:"columbus"},
     {func:midStripe, opts: {colors:["#B7AA8C","#A2A67E"], width:0.3} , id:"syr", name:"syracuse"},
-    {func:midFlag, opts: {colors:["#E4C88D", "#928C7D"], width:0.27}, id:"wor", name:"worcester"},
+    {func:midFlag, opts: {colors:["#E4C88D", "#928C7D"], width:0.27, skew:6}, id:"wor", name:"worcester"},
     {func:doubleFlag, opts: {colors:["#948E81", "#D6A772"], width:0.08, dist:0.3}, id:"tol", name:"toledo"},
     {func:twoColorVert, opts: {colors:["#A8B4A7","#D6AA8F"]}, id:"ric", name:"richmond"},
     {func:oneColor, opts: {colors:["#E6CA90"]}, id:"nhv", name:"new haven"},
     {func:doubleStripe, opts: {colors:["#A38D6A","#9FADA0"], width:0.15, dist:-0.07}, id:"pat", name:"paterson"},
     {func:oneColor, opts: {colors:["#7C7B5A"]}, id:"low", name:"lowell"},
     {func:doubleStripe, opts: {colors:["#948E81","#E0C68C"], width:0.15, dist:0.2}, id:"nas", name:"nashville"},
-    {func:candyStripe, opts: {colors:["#A0ADA0","#948E81"], width:0.15, dist:0.2}, id:"scr", name:"scranton"},
+    {func:candyStripe, opts: {colors:["#A0ADA0","#948E81"], width:0.20, dist:0.2}, id:"scr", name:"scranton"}, //TODO
     {func:twoColor, opts: {colors:["#BAB28E","#C3905F"]}, id:"fal", name:"fall river"},
     {func:oneColor, opts: {colors:["#A89270"]}, id:"cam", name:"cambridge"},
     {func:twoColorDiag, opts: {colors:["#D2AC91","#D3A878"]}, id:"atl", name:"atlanta"},
     {func:midStripe, opts: {colors:["#9DA89A","#6A828A"], width:0.18, offset:0}, id:"mem", name:"memphis"},
-    {func:midFlag, opts: {colors:["#CFA675", "#A3A67E"], width:0.24}, id:"wil", name:"wilmington"},
+    {func:midFlag, opts: {colors:["#CFA675", "#A3A67E"], width:0.24, skew:6}, id:"wil", name:"wilmington"},
     {func:oneColor, opts: {colors:["#C2B69A"]}, id:"day", name:"dayton"},
     {func:oneColor, opts: {colors:["#807F5B"]}, id:"tro", name:"troy"},
     {func:twoColorDiagRev, opts: {colors:["#A3A679","#CFA773"]}, id:"grd", name:"grand rapids"},
@@ -87,6 +87,23 @@ var chart = function() {
     {func:twoColorVert, opts: {colors:["#A99370","#82835E"]} , id:"nbed", name:"new bedford"},
     {func:midStripe, opts: {colors:["#7E7F5C","#AA9570"], width:0.5, offset:0}, id:"ptl", name:"portland"},
     {func:twoColorDiag, opts: {colors:["#7E7D59","#BDB293"]}, id:"uti", name:"utica"},
+    {func:twoColorDiag, opts: {colors:["#989180","#D1A772"]} , id:"nbur", name:"newburyport"},
+    {func:twoColor, opts: {colors:["#D6B094","#C89566"]}, id:"pou", name:"poughkeepsie"},
+    {func:bigX, opts: {colors:["#E0C68A", "#968D82"], width:0.4}, id:"moy", name:"moyamensing"},
+    {func:midFlag, opts: {colors:["#A3AE9C", "#D0A471"], width:0.25, skew:-6}, id:"mob", name:"mobile"},
+    {func:twoHooks, opts: {colors:["#A1AC9B","#D6AA77"], width:0.25}, id:"mem2", name:"memphis"},
+    {func:longStripe, opts: {colors:["#A2AE9F","#B8AF8C"], width:0.2, edge:true}, id:"rox", name:"roxbury"},
+    {func:longStripe, opts: {colors:["#BBB08D","#7E7D58"], width:0.6, rev:true, edge:false}, id:"alx", name:"alexandria"},
+    {func:midFlag, opts: {colors:["#CDC0A2", "#A1AA99"], width:0.6, skew:20}, id:"ban", name:"bangor"},
+    {func:doubleStripeIn, opts: {colors:["#D7A771","#BAAE8C"], width:0.1}, id:"lan", name:"lancaster"},
+    {func:doubleStripe, opts: {colors:["#A19887","#AAB2A0", "#AAAD85"], width:0.30, dist:0.04}, id:"ken", name:"kensington"},
+    {func:doubleStripe, opts: {colors:["#C08B5C","#C1B395"], width:0.2, dist:0.08}, id:"man", name:"manchester"},
+    {func:midFlag, opts: {colors:["#D4AA8F", "#7D96A1"], width:0.6, skew:20}, id:"wib", name:"williamsburg"},
+    {func:midFlag, opts: {colors:["#D3A673", "#9E8468"], width:0.6, skew:20}, id:"spr", name:"springfield"},
+    {func:twoColorVert, opts: {colors:["#D4B193","#A7916F"], skew:-12}, id:"tan", name:"taunton"},
+    {func:midStripe, opts: {colors:["#E2C689","#D8B096"], width:0.5, offset:0}, id:"lex", name:"lexington"},
+    {func:twoColor, opts: {colors:["#E3C78C","#BCB091"]}, id:"hud", name:"hudson"},
+    {func:bigTri, opts: {colors:["#7D7C58", "#A28C68"]}, id:"grg", name:"georgetown"},
   ];
 
   var pillMap = d3.map(pillTypes, function(d) { return d.id; });
@@ -127,7 +144,6 @@ var chart = function() {
   }
 
   function twoColor(selection, width, height, opts) {
-
     selection.selectAll("rect")
       .data(opts.colors).enter()
       .append("rect")
@@ -139,18 +155,9 @@ var chart = function() {
   }
 
   function twoColorVert(selection, width, height, opts) {
-
     selection.call(oneColor, width, height, opts);
 
     var skew = opts.skew || 0;
-
-    // selection
-    //   .append("rect")
-    //   .attr("x", width / 2)
-    //   .attr("y", 0)
-    //   .attr("width", width / 2)
-    //   .attr("height", height)
-    //   .attr("fill", opts.colors[1]);
 
     selection
       .append("path")
@@ -166,7 +173,6 @@ var chart = function() {
   }
 
   function twoColorDiag(selection, width, height, opts) {
-
     selection.append("path")
       .attr("d", function() {
         var path = "M 0,0";
@@ -189,7 +195,6 @@ var chart = function() {
   }
 
   function twoColorDiagRev(selection, width, height, opts) {
-
     selection.append("path")
       .attr("d", function() {
         var path = "M 0,0";
@@ -234,6 +239,15 @@ var chart = function() {
     var stripeWidth = width * opts.width;
     var halfWidth = width / 2;
 
+    if(opts.colors.length > 2) {
+      selection.append("rect")
+        .attr("x", ((halfWidth / 2) + (halfWidth * opts.dist)))
+        .attr("y", 0)
+        .attr("width", stripeWidth * 2)
+        .attr("height", height)
+        .attr("fill", opts.colors[2]);
+    }
+
     selection.selectAll(".stripe")
       .data([0,1]).enter()
       .append("rect")
@@ -251,20 +265,73 @@ var chart = function() {
   function candyStripe(selection, width, height, opts) {
     selection.call(oneColor, width, height, opts);
 
-    var stripeWidth = width * opts.width;
+    var stripeWidth = width * 0.34;
+    var skew = 10;
+    var edge = width / 10;
+
+    // var stripeWidth = width * opts.width;
     var halfWidth = width / 2;
 
     selection.selectAll(".stripe")
       .data([0,1]).enter()
-      .append("rect")
+      .append("path")
       .attr("class", "stripe")
-      .attr("x", function(d,i) {
-        var dist = i === 0 ? (halfWidth * opts.dist) : (halfWidth * opts.dist * -1);
-        return (((halfWidth / 2) + dist) - (stripeWidth / 2)) + (halfWidth * i);
+      .attr("d", function(d,i) {
+        var startX = (i === 0) ? edge : edge + (stripeWidth * 2);
+        var path = "M " + startX + "," + 0;
+        path += " l" + stripeWidth + "," + 0;
+        path += " l" + skew + "," + height;
+        path += " l" + (-1 * stripeWidth) + "," + 0;
+        path += " z";
+
+        return path;
       })
-      .attr("y", 0)
-      .attr("width", stripeWidth)
-      .attr("height", height)
+      .attr("fill", opts.colors[1]);
+  }
+
+  function longStripe(selection, width, height, opts) {
+    selection.call(oneColor, width, height, opts);
+
+    var stripeWidth = width * opts.width;
+
+    var edge = opts.edge ?  width / 10 : -40;
+    var offset = opts.offset || 0;
+
+    selection
+      .append("path")
+      .attr("d", function(d,i) {
+        var path = "M " + (edge) + "," + height ;
+        path += " l" + (width - (((edge) * 2) + stripeWidth)) + "," + (-1 * height);
+        path += " l" + stripeWidth + "," + 0;
+        path += " l" + (-1 * (width - (((edge) * 2) + stripeWidth))) + "," + (height);
+        path += " z";
+
+        return path;
+      })
+      .attr("transform", opts.rev ? "translate(100, 0) scale(-1, 1)" : "")
+      .attr("fill", opts.colors[1]);
+  }
+
+  function doubleStripeIn(selection, width, height, opts) {
+    selection.call(oneColor, width, height, opts);
+
+    var stripeWidth = width * opts.width;
+
+    var edge = width / 10;
+
+    selection.selectAll(".flag")
+      .data([0,1]).enter()
+      .append("path")
+      .attr("d", function(d,i) {
+        var path = "M " + edge + "," + height ;
+        path += " l" + ((width / 2) - ((edge * 2) + stripeWidth)) + "," + (-1 * height);
+        path += " l" + stripeWidth + "," + 0;
+        path += " l" + (-1 * ((width / 2) - ((edge * 2) + stripeWidth))) + "," + (height);
+        path += " z";
+
+        return path;
+      })
+      .attr("transform", function(d,i) {  return i == 1 ? "translate(100, 0) scale(-1, 1)" : ""; })
       .attr("fill", opts.colors[1]);
   }
 
@@ -305,7 +372,6 @@ var chart = function() {
         path += " z";
         return path;
       });
-
   }
 
   function theTeeth(selection, width, height, opts) {
@@ -345,7 +411,6 @@ var chart = function() {
         path += " z";
         return path;
       });
-
   }
 
   function bigX(selection, width, height, opts) {
@@ -373,7 +438,6 @@ var chart = function() {
         path += " z";
         return path;
       });
-
   }
 
   function bigTriInverted(selection, width, height, opts) {
@@ -390,7 +454,6 @@ var chart = function() {
         path += " z";
         return path;
       });
-
   }
 
   function littleSquares(selection, width, height, opts) {
@@ -414,7 +477,7 @@ var chart = function() {
     selection.call(oneColor, width, height, opts);
 
     var flagWidth = width * opts.width;
-    var skew = 6;
+    var skew = opts.skew;
 
     selection.append("path")
       .attr("fill", opts.colors[1])
@@ -445,8 +508,6 @@ var chart = function() {
         path += " z";
         return path;
       });
-
-
   }
 
   function prepareData(rawData) {
@@ -470,7 +531,7 @@ var chart = function() {
     return links.filter(function(l) { return l.start > 0 && l.end > 0; });
   }
 
-  function getEndYears(data) {
+  function getCityTitles(data) {
     endYears = [];
     data.forEach(function(d) {
       var started = false;
@@ -486,7 +547,11 @@ var chart = function() {
             };
             endYears.push(yr);
           }
-          break;
+          if((d.id === "nbed") && (i === 7)) { //TODO fix bad hack
+            continue;
+          } else {
+            break;
+          }
         } else if(i + 1 === years.length) {
           endYears.push({id:d.id, year:years[i], pos:d[years[i]], name:pillMap.get(d.id).name, index:i});
         } else if(!(isNaN(d[years[i]])) && (d[years[i]] !== -1)) {
@@ -495,12 +560,15 @@ var chart = function() {
           } else if(d[years[i]] > sideEnds[years[i]]) {
             endYears.push({id:d.id, year:years[i], pos:d[years[i]], name:pillMap.get(d.id).name, index:i});
           }
-          started = true;
+          if((d.id === "pet") && (i === 3)) { //TODO fix bad hack
+            started = false;
+          } else {
+            started = true;
+          }
         }
       }
     });
 
-      console.log(endYears);
     return endYears;
   }
 
@@ -516,9 +584,8 @@ var chart = function() {
     selection.each(function(rawData) {
       data = prepareData(rawData);
       var links = createLinks(data);
-      var endYears = getEndYears(data);
+      var cityTitles = getCityTitles(data);
       var cities = getStartCities(data);
-
 
       var svg = d3.select(this).selectAll("svg").data([data]);
       var gEnter = svg.enter().append("svg").append("g");
@@ -530,6 +597,7 @@ var chart = function() {
       svg.attr("height", height + margin.top + margin.bottom );
 
       defs = svg.append("defs");
+
       var pill = defs.append("clipPath")
         .attr("id", "pill")
         .append("path")
@@ -554,10 +622,12 @@ var chart = function() {
         .append("g")
         .attr("id", function(d) { return d.id; })
         .attr("class", "pill");
+
       defpills.append("g").attr("clip-path", "url(#pill)")
         .each(function(d,i) {
           d3.select(this).call(d.func, pillWidth, pillHeight, d.opts);
         });
+
       defpills.append("path")
         .attr("class", "pill-outline")
         .attr("d", pillPath(pillWidth, pillHeight));
@@ -591,7 +661,6 @@ var chart = function() {
         .attr("dy", -30)
         .text(function(d,i) { return censuses[i]; });
 
-
       year.selectAll("pill-use")
         .data(function(y) {
           return data.map(function(d) {
@@ -609,7 +678,7 @@ var chart = function() {
         .on("mouseout", mouseout);
 
       g.selectAll("end-title")
-        .data(endYears)
+        .data(cityTitles)
         .enter()
         .append("text")
         .attr("class", "title end-title")
@@ -640,19 +709,11 @@ var chart = function() {
   return chart;
 };
 
-
-
-function plotData(selector, data, plot) {
-  d3.select(selector)
-    .datum(data)
-    .call(plot);
-}
-
 $(document).ready(function() {
   var plot = chart();
 
   function display(error, data) {
-    plotData("#vis", data, plot);
+    d3.select("#vis").datum(data).call(plot);
   }
 
   queue()
