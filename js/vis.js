@@ -710,8 +710,10 @@ var chart = function() {
         .attr("text-anchor", "middle")
         .text("rank of the most populous cities at each census: 1790 - 1890.");
 
-      d3.select(window).on('resize', resize);
-      resize();
+      // if (Modernizr.mq('only screen and (min-width: 800px)')) {
+      //   d3.select(window).on('resize', resize);
+      //   resize();
+      // }
     });
   };
 
