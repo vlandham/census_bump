@@ -36,26 +36,17 @@ a, a:visited, a:focus {
   pointer-events: none;
 }
 
-#main p {
-  line-height: 50px;
-}
-
 .pill {
-  /* stroke: black; */
-  /* stroke-width: 2; */
   stroke-linejoin: round;
 }
 
 .pill-outer {
-  /* stroke: black; */
-  /* stroke-width: 2; */
   stroke-linejoin: round;
 }
 
 .link {
   stroke-width: 1;
   stroke: #AEA495;
-  /* stroke-opacity: 0.8; */
 }
 
 .pill rect, .pill path {
@@ -74,18 +65,40 @@ a, a:visited, a:focus {
   stroke-width:1;
 }
 
+/* .link { */
+/*   -webkit-transition: opacity .25s ease-in-out; */
+/*   -moz-transition: opacity .25s ease-in-out; */
+/*   -ms-transition: opacity .25s ease-in-out; */
+/*   -o-transition: opacity .25s ease-in-out; */
+/* } */
+/*  */
+/* .pill { */
+/*   -webkit-transition: opacity .25s ease-in-out; */
+/*   -moz-transition: opacity .25s ease-in-out; */
+/*   -ms-transition: opacity .25s ease-in-out; */
+/*   -o-transition: opacity .25s ease-in-out; */
+/* } */
+
 .highlight {
   stroke: black;
   stroke-width:2;
 }
 
-.unhighlight {
+.pill.unhighlight {
   opacity: 0.7;
 }
 
 .highlight .pill-outline{
   stroke: black;
   stroke-width:2;
+}
+
+.start-city {
+  -webkit-transition: opacity .25s ease-in-out;
+  -moz-transition: opacity .25s ease-in-out;
+  -ms-transition: opacity .25s ease-in-out;
+  -o-transition: opacity .25s ease-in-out;
+  transition: opacity .25s ease-in-out;
 }
 
 .start-city.highlight {
@@ -100,7 +113,6 @@ a, a:visited, a:focus {
   cursor: pointer;
   text-shadow: 2px 2px 2px rgba(150, 150, 150, 1);
   text-shadow: 3px 3px 2px rgba(150, 150, 150, 1);
-
 }
 
 .zoom:hover {
@@ -112,7 +124,6 @@ a, a:visited, a:focus {
 }
 
 #footer {
-
   font-family: 'Lato', sans-serif;
   font-weight: 400;
   text-transform: uppercase;
