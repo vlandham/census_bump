@@ -8,6 +8,10 @@ body {
   background-color: #EADEBD;
 }
 
+.container {
+  padding-left: 30px;
+}
+
 .title {
   font-family: 'Lato', sans-serif;
   font-weight: 400;

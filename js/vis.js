@@ -658,7 +658,7 @@ var chart = function() {
         .attr("class", "title year-title")
         .attr("text-anchor", "middle")
         .attr("x", pillWidth / 2)
-        .attr("dy", -30)
+        .attr("dy", -27)
         .text(function(d,i) { return censuses[i]; });
 
       year.selectAll("pill-use")
