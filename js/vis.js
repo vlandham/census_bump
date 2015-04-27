@@ -122,7 +122,7 @@ var chart = function() {
   var g = null;
   var defs = null;
 
-  var zooming = false;
+  var zooming = true;
 
   function pillPath(width, height, padding) {
 
