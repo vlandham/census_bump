@@ -555,7 +555,7 @@ var chart = function() {
             };
             endYears.push(yr);
           }
-          if((d.id === "nbed") && (i === 7)) { //TODO fix bad hack
+          if((d.id === "nbed") && (i === 7) || (d.id === "wil") && (i === 4)) { //TODO fix bad hack
             continue;
           } else {
             break;
