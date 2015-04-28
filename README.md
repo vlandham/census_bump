@@ -5,3 +5,5 @@ A recreation of the top cities by population bump chart in the Statistical Atlas
 Implemented here using D3.js, and adding a small amount of interaction.
 
 just for fun.
+
+
