@@ -781,6 +781,7 @@ var chart = function() {
   return chart;
 };
 
+var zooming = false;
 
 $(document).ready(function() {
   var plot = chart();
@@ -794,24 +795,26 @@ $(document).ready(function() {
     .await(display);
 
   function unzoomSetup() {
-    d3.select(".unzoom").on("click", function() {
+    d3.select("#zoom").on("click", function() {
       plot.unzoom();
       d3.select(this)
-      .classed("zoom", true)
-      .classed("unzoom",false)
       .text("zoom");
       zoomSetup();
     });
   }
 
   function zoomSetup() {
-    d3.select(".zoom").on("click", function() {
-      plot.zoom();
-      d3.select(this)
-      .classed("zoom", false)
-      .classed("unzoom",true)
-      .text("unzoom");
-      unzoomSetup();
+    d3.select("#zoom").on("click", function() {
+      if (zooming) {
+        plot.unzoom();
+        d3.select(this)
+          .text("zoom");
+      } else {
+        plot.zoom();
+        d3.select(this)
+          .text("unzoom");
+      }
+      zooming = !zooming;
     });
   }
 
