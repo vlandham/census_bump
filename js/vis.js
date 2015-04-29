@@ -122,7 +122,7 @@ var chart = function() {
   var g = null;
   var defs = null;
 
-  var zooming = true;
+  var zooming = false;
 
   function pillPath(width, height, padding) {
 
@@ -718,8 +718,8 @@ var chart = function() {
         .attr("class", "title zoom-title zoom")
         .attr("x", -100)
         .attr("y", -50)
-        .text("unzoom")
-        .on("click", chart.unzoom);
+        .text("zoom")
+        .on("click", chart.zoom);
 
       d3.select(window).on('resize', resize);
       // if (Modernizr.mq('only screen and (min-width: 800px)')) {
