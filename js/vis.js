@@ -722,6 +722,7 @@ var chart = function() {
         .on("click", chart.zoom);
 
       d3.select(window).on('resize', resize);
+      resize();
       // if (Modernizr.mq('only screen and (min-width: 800px)')) {
       //   d3.select(window).on('resize', resize);
       //   resize();

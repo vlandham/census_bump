@@ -113,6 +113,7 @@ a, a:visited, a:focus {
   cursor: pointer;
   text-shadow: 2px 2px 2px rgba(150, 150, 150, 1);
   text-shadow: 3px 3px 2px rgba(150, 150, 150, 1);
+  font-size: 150%;
 }
 
 .zoom:hover {
