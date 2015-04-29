@@ -13,7 +13,7 @@ a, a:visited, a:focus {
 }
 
 .container {
-  padding-left: 10px;
+  padding: 0 10px;
 }
 
 .title {
@@ -130,6 +130,19 @@ a, a:visited, a:focus {
   text-transform: uppercase;
 
   text-align: center;
-  padding-bottom: 10px;
+  background-color: #EADEBD;
+
+  padding: 10px;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  box-sizing: border-box;
 }
 
+#footer button {
+  text-transform: uppercase;
+  background-color: rgba(255, 255, 255, 0.4);
+  outline: 0;
+  border: 1px solid rgba(150, 150, 150, 1);
+  border-radius: 4px;
+}
